@@ -1,13 +1,14 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of phpDocumentor.
  *
  *  For the full copyright and license information, please view the LICENSE
  *  file that was distributed with this source code.
  *
- *  @copyright 2010-2018 Mike van Riel<mike@phpdoc.org>
- *  @license   http://www.opensource.org/licenses/mit-license.php MIT
- *  @link      http://phpdoc.org
+ * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Parser\Middleware;
@@ -31,17 +32,17 @@ final class EmittingMiddlewareTest extends TestCase
     public function testEmitsPreParsingEvent() : void
     {
         $filename = __FILE__;
-        $command = new CreateCommand(new LocalFile($filename), new ProjectFactoryStrategies([]));
+        $command  = new CreateCommand(new LocalFile($filename), new ProjectFactoryStrategies([]));
 
         Dispatcher::getInstance()->addListener(
             'parser.file.pre',
-            function (PreFileEvent $event) use ($filename) {
+            function (PreFileEvent $event) use ($filename) : void {
                 $this->assertSame($event->getFile(), $filename);
             }
         );
 
         $middleware = new EmittingMiddleware();
-        $result = $middleware->execute(
+        $result     = $middleware->execute(
             $command,
             function (CreateCommand $receivedCommand) use ($command) {
                 $this->assertSame($command, $receivedCommand);

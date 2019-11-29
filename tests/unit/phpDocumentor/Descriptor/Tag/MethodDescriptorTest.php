@@ -1,24 +1,26 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
  * PHP Version 5.3
  *
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Descriptor\Tag;
 
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Descriptor\Collection;
 
 /**
  * Tests the functionality for the MethodDescriptor class.
  */
-class MethodDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
+class MethodDescriptorTest extends MockeryTestCase
 {
-    const EXAMPLE_NAME = 'methodname';
+    public const EXAMPLE_NAME = 'methodname';
 
     /** @var MethodDescriptor $fixture */
     protected $fixture;
@@ -26,7 +28,7 @@ class MethodDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     /**
      * Creates a new fixture object.
      */
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->fixture = new MethodDescriptor('name');
     }

@@ -1,20 +1,24 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
  * PHP Version 5.3
  *
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Parser\Event;
 
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use stdClass;
+
 /**
  * Test for the PreFileEvent class.
  */
-class PreFileEventTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
+class PreFileEventTest extends MockeryTestCase
 {
     /** @var PreFileEvent $fixture */
     protected $fixture;
@@ -22,9 +26,9 @@ class PreFileEventTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     /**
      * Sets up a fixture.
      */
-    protected function setUp(): void
+    protected function setUp() : void
     {
-        $this->fixture = new PreFileEvent(new \stdClass());
+        $this->fixture = new PreFileEvent(new stdClass());
     }
 
     /**

@@ -1,24 +1,28 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
  * PHP Version 5.3
  *
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Descriptor;
 
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Descriptor\Tag\ReturnDescriptor;
 use phpDocumentor\Reflection\Types\String_;
+use stdClass;
+use function current;
 
 /**
  * Tests the functionality for the ClassDescriptor class.
  */
-class ClassDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
+class ClassDescriptorTest extends MockeryTestCase
 {
     /** @var ClassDescriptor $fixture */
     protected $fixture;
@@ -26,7 +30,7 @@ class ClassDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     /**
      * Creates a new (emoty) fixture object.
      */
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->fixture = new ClassDescriptor();
     }
@@ -152,7 +156,7 @@ class ClassDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     public function testRetrievingInheritedMethodsReturnsTraitMethods() : void
     {
         // Arrange
-        $expected = ['methods'];
+        $expected            = ['methods'];
         $traitDescriptorMock = m::mock('phpDocumentor\Descriptor\TraitDescriptor');
         $traitDescriptorMock->shouldReceive('getMethods')->andReturn(new Collection(['methods']));
         $this->fixture->setUsedTraits(new Collection([$traitDescriptorMock]));
@@ -216,8 +220,8 @@ class ClassDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     public function testGetMagicPropertiesUsingPropertyTags() : void
     {
         $variableName = 'variableName';
-        $description = 'description';
-        $types = new Collection(['string']);
+        $description  = 'description';
+        $types        = new Collection(['string']);
 
         $this->assertEquals(0, $this->fixture->getMagicProperties()->count());
 
@@ -254,7 +258,7 @@ class ClassDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
         $descriptor = new ClassDescriptor();
         $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $descriptor->getInheritedConstants());
 
-        $descriptor->setParent(new \stdClass());
+        $descriptor->setParent(new stdClass());
         $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $descriptor->getInheritedConstants());
     }
 
@@ -286,7 +290,7 @@ class ClassDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
         $descriptor = new ClassDescriptor();
         $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $descriptor->getInheritedProperties());
 
-        $descriptor->setParent(new \stdClass());
+        $descriptor->setParent(new stdClass());
         $this->assertInstanceOf('phpDocumentor\Descriptor\Collection', $descriptor->getInheritedProperties());
     }
 
@@ -316,7 +320,7 @@ class ClassDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     public function testRetrievingInheritedPropertiesReturnsTraitProperties() : void
     {
         // Arrange
-        $expected = ['properties'];
+        $expected            = ['properties'];
         $traitDescriptorMock = m::mock('phpDocumentor\Descriptor\TraitDescriptor');
         $traitDescriptorMock->shouldReceive('getProperties')->andReturn(new Collection(['properties']));
         $this->fixture->setUsedTraits(new Collection([$traitDescriptorMock]));
@@ -351,13 +355,12 @@ class ClassDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     /**
      * @covers \phpDocumentor\Descriptor\ClassDescriptor::getMagicMethods
      * @dataProvider provideMagicMethodProperties
-     * @param bool $isStatic
      */
-    public function testGetMagicMethods($isStatic) : void
+    public function testGetMagicMethods(bool $isStatic) : void
     {
-        $methodName = 'methodName';
+        $methodName  = 'methodName';
         $description = 'description';
-        $response = new ReturnDescriptor('return');
+        $response    = new ReturnDescriptor('return');
         $response->setType(new String_());
         $arguments = m::mock('phpDocumentor\Descriptor\Tag\ArgumentDescriptor');
         $arguments->shouldReceive('setMethod');
@@ -395,6 +398,7 @@ class ClassDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     /**
      * Provider to test different properties for a class magic method
      * (provides isStatic)
+     *
      * @return bool[][]
      */
     public function provideMagicMethodProperties() : array
@@ -505,9 +509,6 @@ class ClassDescriptorTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
         $this->assertSame($description, $result);
     }
 
-    /**
-     * @return ClassDescriptor
-     */
     protected function whenFixtureHasParentClass() : ClassDescriptor
     {
         $class = new ClassDescriptor();

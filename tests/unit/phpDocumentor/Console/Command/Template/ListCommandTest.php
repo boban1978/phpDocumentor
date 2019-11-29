@@ -1,25 +1,28 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
  * PHP Version 5.3
  *
- * @author    Mike van Riel <mike.vanriel@naenius.com>
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Console\Command\Template;
 
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Transformer\Template\Factory;
 use Symfony\Component\Console\Tester\CommandTester;
+use const PHP_EOL;
+use function str_replace;
 
 /**
  * @coversDefaultClass \phpDocumentor\Console\Command\Template\ListCommand
  */
-class ListCommandTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
+class ListCommandTest extends MockeryTestCase
 {
     /**
      * @covers ::__construct

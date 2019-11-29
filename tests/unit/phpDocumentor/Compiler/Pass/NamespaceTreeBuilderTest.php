@@ -1,16 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
  * PHP Version 5.3
  *
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Compiler\Pass;
 
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Descriptor\ClassDescriptor;
 use phpDocumentor\Descriptor\ConstantDescriptor;
 use phpDocumentor\Descriptor\FileDescriptor;
@@ -18,13 +20,15 @@ use phpDocumentor\Descriptor\FunctionDescriptor;
 use phpDocumentor\Descriptor\InterfaceDescriptor;
 use phpDocumentor\Descriptor\ProjectDescriptor;
 use phpDocumentor\Descriptor\TraitDescriptor;
+use function array_keys;
+use function sort;
 
 /**
  * Tests the functionality for the ElementsIndexBuilder
  *
  * @covers \phpDocumentor\Compiler\Pass\NamespaceTreeBuilder
  */
-class NamespaceTreeBuilderTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
+class NamespaceTreeBuilderTest extends MockeryTestCase
 {
     /** @var NamespaceTreeBuilder $fixture */
     protected $fixture;
@@ -32,7 +36,7 @@ class NamespaceTreeBuilderTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     /** @var ProjectDescriptor */
     protected $project;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->fixture = new NamespaceTreeBuilder();
 
@@ -70,7 +74,7 @@ class NamespaceTreeBuilderTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
         $this->fixture->execute($this->project);
 
-        $elements = $this->project->getIndexes()->get('elements')->getAll();
+        $elements     = $this->project->getIndexes()->get('elements')->getAll();
         $elementNames = array_keys($elements);
         sort($elementNames);
         $this->assertSame(

@@ -1,16 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
  * PHP Version 5.3
  *
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Compiler\Pass;
 
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Descriptor\ClassDescriptor;
 use phpDocumentor\Descriptor\ConstantDescriptor;
 use phpDocumentor\Descriptor\FileDescriptor;
@@ -20,13 +22,16 @@ use phpDocumentor\Descriptor\MethodDescriptor;
 use phpDocumentor\Descriptor\ProjectDescriptor;
 use phpDocumentor\Descriptor\PropertyDescriptor;
 use phpDocumentor\Descriptor\TraitDescriptor;
+use phpDocumentor\Reflection\Fqsen;
+use function array_keys;
+use function array_values;
 
 /**
  * Tests the functionality for the ElementsIndexBuilder
  *
  * @covers \phpDocumentor\Compiler\Pass\ElementsIndexBuilder
  */
-class ElementsIndexBuilderTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
+class ElementsIndexBuilderTest extends MockeryTestCase
 {
     /** @var ElementsIndexBuilder $fixture */
     protected $fixture;
@@ -34,7 +39,7 @@ class ElementsIndexBuilderTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     /** @var ProjectDescriptor */
     protected $project;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->fixture = new ElementsIndexBuilder();
 
@@ -257,20 +262,20 @@ class ElementsIndexBuilderTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     {
         $file1 = $this->project->getFiles()->get(0);
         $classDescriptor1 = new ClassDescriptor();
-        $classDescriptor1->setFullyQualifiedStructuralElementName('My\Space\Class1');
+        $classDescriptor1->setFullyQualifiedStructuralElementName(new Fqsen('\My\Space\Class1'));
         $file1->getClasses()->add($classDescriptor1);
 
         $classPropertyDescriptor1 = new PropertyDescriptor();
-        $classPropertyDescriptor1->setFullyQualifiedStructuralElementName('My\Space\Class1::$property');
+        $classPropertyDescriptor1->setFullyQualifiedStructuralElementName(new Fqsen('\My\Space\Class1::$property'));
         $classDescriptor1->getProperties()->add($classPropertyDescriptor1);
 
         $file2 = $this->project->getFiles()->get(1);
         $classDescriptor2 = new ClassDescriptor();
-        $classDescriptor2->setFullyQualifiedStructuralElementName('My\Space\Class2');
+        $classDescriptor2->setFullyQualifiedStructuralElementName(new Fqsen('\My\Space\Class2'));
         $file2->getClasses()->add($classDescriptor2);
 
         $classPropertyDescriptor2 = new PropertyDescriptor();
-        $classPropertyDescriptor2->setFullyQualifiedStructuralElementName('My\Space\Class2::$property');
+        $classPropertyDescriptor2->setFullyQualifiedStructuralElementName(new Fqsen('\My\Space\Class2::$property'));
         $classDescriptor2->getProperties()->add($classPropertyDescriptor2);
 
         $this->fixture->execute($this->project);
@@ -278,7 +283,7 @@ class ElementsIndexBuilderTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
         $elements = $this->project->getIndexes()->get('elements')->getAll();
         $this->assertCount(4, $elements);
         $this->assertSame(
-            ['My\Space\Class1', 'My\Space\Class1::$property', 'My\Space\Class2', 'My\Space\Class2::$property'],
+            ['\My\Space\Class1', '\My\Space\Class1::$property', '\My\Space\Class2', '\My\Space\Class2::$property'],
             array_keys($elements)
         );
         $this->assertSame(
@@ -300,20 +305,20 @@ class ElementsIndexBuilderTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     {
         $file1 = $this->project->getFiles()->get(0);
         $classDescriptor1 = new ClassDescriptor();
-        $classDescriptor1->setFullyQualifiedStructuralElementName('My\Space\Class1');
+        $classDescriptor1->setFullyQualifiedStructuralElementName(new Fqsen('\My\Space\Class1'));
         $file1->getClasses()->add($classDescriptor1);
 
         $classMethodDescriptor1 = new MethodDescriptor();
-        $classMethodDescriptor1->setFullyQualifiedStructuralElementName('My\Space\Class1::METHOD');
+        $classMethodDescriptor1->setFullyQualifiedStructuralElementName(new Fqsen('\My\Space\Class1::METHOD'));
         $classDescriptor1->getMethods()->add($classMethodDescriptor1);
 
         $file2 = $this->project->getFiles()->get(1);
         $classDescriptor2 = new ClassDescriptor();
-        $classDescriptor2->setFullyQualifiedStructuralElementName('My\Space\Class2');
+        $classDescriptor2->setFullyQualifiedStructuralElementName(new Fqsen('\My\Space\Class2'));
         $file2->getClasses()->add($classDescriptor2);
 
         $classMethodDescriptor2 = new MethodDescriptor();
-        $classMethodDescriptor2->setFullyQualifiedStructuralElementName('My\Space\Class2::METHOD');
+        $classMethodDescriptor2->setFullyQualifiedStructuralElementName(new Fqsen('\My\Space\Class2::METHOD'));
         $classDescriptor2->getMethods()->add($classMethodDescriptor2);
 
         $this->fixture->execute($this->project);
@@ -321,7 +326,7 @@ class ElementsIndexBuilderTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
         $elements = $this->project->getIndexes()->get('elements')->getAll();
         $this->assertCount(4, $elements);
         $this->assertSame(
-            ['My\Space\Class1', 'My\Space\Class1::METHOD', 'My\Space\Class2', 'My\Space\Class2::METHOD'],
+            ['\My\Space\Class1', '\My\Space\Class1::METHOD', '\My\Space\Class2', '\My\Space\Class2::METHOD'],
             array_keys($elements)
         );
         $this->assertSame(

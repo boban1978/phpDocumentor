@@ -1,22 +1,25 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * phpDocumentor
  *
  * PHP Version 5.3
  *
- * @copyright 2010-2018 Mike van Riel / Naenius (http://www.naenius.com)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
 
 namespace phpDocumentor\Event;
 
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use phpDocumentor\Event\Mock\EventAbstract as EventAbstractMock;
+use stdClass;
 
 /**
  * Test for the EventAbstract class.
  */
-class EventAbstractTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
+class EventAbstractTest extends MockeryTestCase
 {
     /**
      * @covers \phpDocumentor\Event\EventAbstract::__construct
@@ -24,7 +27,7 @@ class EventAbstractTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
      */
     public function testSubjectMustBeProvidedAndCanBeRead() : void
     {
-        $subject = new \stdClass();
+        $subject = new stdClass();
 
         $fixture = new EventAbstractMock($subject);
 
@@ -36,7 +39,7 @@ class EventAbstractTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
      */
     public function testCanBeConstructedUsingAStaticFactoryMethod() : void
     {
-        $subject = new \stdClass();
+        $subject = new stdClass();
 
         $fixture = EventAbstractMock::createInstance($subject);
 
